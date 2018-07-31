@@ -15,7 +15,7 @@ static rt_uint8_t led_inited = 0;
 #define LEDY_PIN 25
 #define LEDR_PIN 43
 
-void rt_hw_led_init(void)
+void rt_hw_led_control_init(void)
 {
     rt_pin_mode(LEDB_PIN, PIN_MODE_OUTPUT);
     rt_pin_mode(LEDG_PIN, PIN_MODE_OUTPUT);
@@ -23,7 +23,7 @@ void rt_hw_led_init(void)
     rt_pin_mode(LEDY_PIN, PIN_MODE_OUTPUT);
 }
 
-void rt_hw_led_on(rt_uint32_t n)
+void rt_hw_led_control_on(rt_uint32_t n)
 {
     switch (n)
     {
@@ -44,7 +44,7 @@ void rt_hw_led_on(rt_uint32_t n)
     }
 }
 
-void rt_hw_led_off(rt_uint32_t n)
+void rt_hw_led_control_off(rt_uint32_t n)
 {
     switch (n)
     {
@@ -66,7 +66,7 @@ void rt_hw_led_off(rt_uint32_t n)
 }
 
 
-void led(rt_uint32_t led, rt_uint32_t value)
+void led_control(rt_uint32_t led, rt_uint32_t value)
 {
     /* init led configuration if it's not inited. */
     if (!led_inited)
@@ -75,48 +75,14 @@ void led(rt_uint32_t led, rt_uint32_t value)
         led_inited = 1;
     }
     
-    if (led == 0)
-    {
-        /* set led status */
-        switch (value)
-        {
-            case 0:
-            rt_hw_led_off(0);
-            break;
-            case 1:
-            rt_hw_led_off(1);
-            break;
-            case 2:
-            rt_hw_led_off(2);
-            break;
-            case 3:
-            rt_hw_led_off(3);
-            break;
-            default:
-            break;
-        }
-    }
-    
     if (led == 1)
     {
-        /* set led status */
-        switch (value)
-        {
-            case 0:
-            rt_hw_led_on(0);
-            break;
-            case 1:
-            rt_hw_led_on(1);
-            break;
-            case 2:
-            rt_hw_led_on(2);
-            break;
-            case 3:
-            rt_hw_led_on(3);
-            break;
-            default:
-            break;
-        }
+       rt_hw_led_control_on(value);
+    }
+    else
+    {
+        rt_hw_led_control_off(value);
+    }
     }
    
     
@@ -124,5 +90,5 @@ void led(rt_uint32_t led, rt_uint32_t value)
 
 
 /* 导出到 msh 命令列表中 */
-FINSH_FUNCTION_EXPORT(led, led test);
+FINSH_FUNCTION_EXPORT(led_control, led test);
 
