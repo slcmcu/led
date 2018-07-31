@@ -71,7 +71,7 @@ void led_control(rt_uint32_t led, rt_uint32_t value)
     /* init led configuration if it's not inited. */
     if (!led_inited)
     {
-        rt_hw_led_init();
+        rt_hw_led_control_init();
         led_inited = 1;
     }
     
